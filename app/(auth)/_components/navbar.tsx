@@ -19,18 +19,22 @@ const Navbar = () => {
             placeholder="Search"
             className="w-[184px] bg-custom-gray outline-none border-none rounded-lg px-4 py-2 ml-[255px]"
           />
-          <select name="language" id="language" className="ml-[180px] mr-auto">
+          <select
+            name="language"
+            id="language"
+            className="ml-[180px] mr-auto font-medium"
+          >
             <option value="en">English (United States) ‎ ‎ ‎ ‎ </option>
             <option value="es">Spanish</option>
           </select>
           <div className="flex items-center gap-[30px] ml-[50px]">
             <Link href="./login">
-              <button className="bg-custom-violet px-[48px] py-[12px] rounded-lg text-white border border-custom-violet">
+              <button className="bg-custom-violet px-[48px] py-[12px] font-medium rounded-lg text-white border border-custom-violet">
                 Login
               </button>
             </Link>
             <Link href="./signup">
-              <button className="text-custom-violet px-[48px] py-[12px] rounded-lg border border-black">
+              <button className="text-custom-violet px-[48px] py-[12px] font-medium rounded-lg border border-black">
                 Sign Up
               </button>
             </Link>
