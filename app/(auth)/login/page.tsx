@@ -51,12 +51,11 @@ const LoginPage = () => {
         throw new Error("Network response was not ok");
       }
       const json = await res.json();
-      localStorage.setItem("token", json);
-      localStorage.setItem("isLoggedIn", "true");
     } catch (err) {
       console.error(err);
     } finally {
       setIsLoading(false); // Hide loader when request completes
+      localStorage.setItem("isLoggedIn", "true");
       router.push("/home");
     }
   };
