@@ -8,6 +8,6 @@ export default function Home() {
   if (!isLoggedIn) {
     router.push("/login");
   } else {
-    router.push("/dashboard");
+    router.push("/home");
   }
 }

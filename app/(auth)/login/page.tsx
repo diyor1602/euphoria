@@ -13,15 +13,62 @@ const causten = localFont({
   src: "../../../public/fonts/Causten-Regular.ttf",
 });
 
+import { useRouter } from "next/navigation";
+
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Generate random data for missing fields
+    const username = e.target[0].value;
+    const password = e.target[1].value;
+
+    // Construct the data object
+    const data = {
+      username: username,
+      password: password,
+    };
+
+    try {
+      const res = await fetch("https://fakestoreapi.com/auth/login", {
+        method: "POST",
+        body: JSON.stringify({
+          username: "mor_2314",
+          password: "83r5^_",
+        }),
+      });
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const json = await res.json();
+      localStorage.setItem("token", json);
+      localStorage.setItem("isLoggedIn", "true");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false); // Hide loader when request completes
+      router.push("/home");
+    }
+  };
+
   return (
     <div className="w-full flex">
+      {" "}
+      {isLoading && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="spinner"></div>
+        </div>
+      )}
       <img src={LoginImg.src} alt="Login" className="w-1/2 h-[956px]" />
       <div className="w-1/2 px-[100px] py-[60px]">
         <div className="text-[34px] font-semibold leading-8">Sign In Page</div>
@@ -40,13 +87,14 @@ const LoginPage = () => {
           <div>OR</div>
           <div className="w-full h-[2px] bg-custom-slate opacity-25"></div>
         </div>
-        <div className={causten.className}>
+        <form className={causten.className} onSubmit={handleSubmit}>
           <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-[10px]">
               <label htmlFor="username">User name or email address</label>
               <input
                 id="username"
                 type="text"
+                defaultValue="mor_2314"
                 className="border border-black py-4 px-5 rounded-lg"
               />
             </div>
@@ -64,6 +112,7 @@ const LoginPage = () => {
               <input
                 id="password"
                 type={showPassword ? "text" : "password"}
+                defaultValue="83r5^_"
                 className="border border-black py-4 px-5 rounded-lg"
               />
               <p className="font-normal underline text-right cursor-pointer">
@@ -71,10 +120,12 @@ const LoginPage = () => {
               </p>
             </div>
           </div>
-        </div>
-        <div className={causten.className}>
+
           <div className="mt-[30px]">
-            <button className="bg-custom-violet px-[48px] py-[12px] font-medium rounded-lg text-white border border-custom-violet">
+            <button
+              className="bg-custom-violet px-[48px] py-[12px] font-medium rounded-lg text-white border border-custom-violet"
+              type="submit"
+            >
               Sign In
             </button>
             <div className="mt-[10px]">
@@ -84,7 +135,7 @@ const LoginPage = () => {
               </span>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
